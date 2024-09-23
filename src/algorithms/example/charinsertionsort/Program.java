@@ -1,7 +1,9 @@
+package algorithms.example.charinsertionsort;
 public class Program {
 	public static void main(String[] args) {
 		char[] arr = {'j', 'b', 'v', 'd', 'r', 'a'};
 		insertionSort(arr);
+		System.out.println(arr);
 	}
 	
 	public static void insertionSort(char[] a) {
