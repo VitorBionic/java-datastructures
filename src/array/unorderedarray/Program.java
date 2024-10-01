@@ -16,6 +16,7 @@ public class Program {
 		
 		ua.remove(3);
 		
+		System.out.println(ua);
 		System.out.println(ua.checkMemory());
 	}
 

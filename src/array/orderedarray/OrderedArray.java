@@ -1,7 +1,9 @@
-package array.unorderedarray;
+package array.orderedarray;
+
+import java.lang.reflect.Array;
 
 // Creating class
-public class UnorderedArray <T> {
+public class OrderedArray <T extends Comparable<T>> {
 
 	// Instance Variables
 	private int capacity;
@@ -15,9 +17,9 @@ public class UnorderedArray <T> {
 	
 	// Constructor of class
 	@SuppressWarnings("unchecked")
-	public UnorderedArray(int capacity) {
+	public OrderedArray(Class<T> c, int capacity) {
 		this.capacity = capacity;
-		this.elements = (T[]) new Object[capacity];
+		elements = (T[]) Array.newInstance(c, capacity);
 	}
 	
 	// Method get - Just to recover the values of the private instance variable elements
@@ -28,30 +30,60 @@ public class UnorderedArray <T> {
 	}
 	
 	// Method insert
-	// O(1)
-	public void insert(T element) {
+	// O(n)
+	public void insert(T value) {
 		if (lastPosition == capacity - 1)
 			throw new ArrayIndexOutOfBoundsException("Array is Full");
-		else {
-			lastPosition++;
-			elements[lastPosition] = element;
+		int position = 0;
+		for (int i = 0; i < lastPosition + 1; i++) {
+			position = i;
+			if (elements[position].compareTo(value) > 0)
+				break;
+			if (position == lastPosition)
+				position++;
 		}
+		int x = lastPosition;
+		while (x >= position) {
+			elements[x + 1] = elements[x];
+			x--;
+		}
+		
+		elements[position] = value;
+		lastPosition++;
 	}
 	
-	// Method search
+	// Method Linear Search
 	// O(n)
-	public int search(T value) {
+	public int linearSearch(T value) {
 		for (int i = 0; i <= lastPosition; i++) {
 			if (value.equals(elements[i]))
-				return i;
+			    return i;
 		}
 		return -1;
+	}
+	
+	// Method Binary Search
+	// O(log n)
+	public int binarySearch(T value) {
+		int start = 0;
+		int end = lastPosition;
+		while (true) {
+			int mid = ((start + end) / 2);
+			if (value.compareTo(elements[mid]) > 0)
+				start = mid + 1;
+			else if (value.compareTo(elements[mid]) < 0)
+				end = mid - 1;
+			else
+				return mid;
+			if (start > end)
+				return -1;
+		}
 	}
 	
 	// Method remove
 	// O(n)
 	public void remove(T value) {
-		int index = search(value);
+		int index = binarySearch(value);
 		if (index == -1)
 			throw new ArrayIndexOutOfBoundsException("Value doesn't exist in the array");
 		for (int i = index; i < lastPosition; i++)
@@ -81,5 +113,4 @@ public class UnorderedArray <T> {
 		sb.append("]");
 		return sb.toString();
 	}
-	
 }
