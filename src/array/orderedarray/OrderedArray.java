@@ -56,6 +56,8 @@ public class OrderedArray <T extends Comparable<T>> {
 	// O(n)
 	public int linearSearch(T value) {
 		for (int i = 0; i <= lastPosition; i++) {
+			if (value.compareTo(elements[i]) < 0)
+				return -1;
 			if (value.equals(elements[i]))
 			    return i;
 		}
