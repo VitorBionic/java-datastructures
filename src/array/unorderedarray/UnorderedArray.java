@@ -31,7 +31,7 @@ public class UnorderedArray <T> {
 	// O(1)
 	public void insert(T element) {
 		if (lastPosition == capacity - 1)
-			throw new ArrayIndexOutOfBoundsException("Array is Full");
+			throw new ArrayIndexOutOfBoundsException("Array is full");
 		else {
 			lastPosition++;
 			elements[lastPosition] = element;

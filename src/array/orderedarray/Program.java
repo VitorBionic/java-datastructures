@@ -13,6 +13,7 @@ public class Program {
 		oa.insert(1);
 		
 		System.out.println(oa);
+		System.out.println(oa.linearSearch(69));
 		System.out.println(oa.binarySearch(69));
 		System.out.println(oa.get(3));
 		
