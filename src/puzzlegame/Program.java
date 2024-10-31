@@ -1,4 +1,5 @@
 package puzzlegame;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Program {
@@ -20,7 +21,11 @@ public class Program {
 			int pop = sc.nextInt();
 			System.out.print("Pilha onde será colocado(1/2/3): ");
 			int push = sc.nextInt();
+			try {
 			pg.move(pop - 1, push - 1);
+			} catch (InputMismatchException e) {
+				System.out.println("ERRO: " + e.getMessage());
+			}
 		} while (!pg.checkWin());
 		System.out.println("");
 		System.out.println(pg);

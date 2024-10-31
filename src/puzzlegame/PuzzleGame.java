@@ -80,17 +80,23 @@ public class PuzzleGame {
 	}
 	
 	public void move(int pPop, int pPush) {
-		TadPilha stc = stacks[pPop];
+		TadPilha stcPop = stacks[pPop];
 		int aux;
-		if (stc.pop())
-		    aux = stc.getRetorno();
-		else
+		if (stcPop.pop())
+		    aux = stcPop.getRetorno();
+		else {
 			throw new InputMismatchException("Tentativa de remover um elemento de uma pilha vazia");
-		stc = stacks[pPush];
-		if (stc.push(aux))
+		}
+		TadPilha stcPush = stacks[pPush];
+		if (stcPush.push(aux))
 			return;
 		else
+			undoPop(stcPop);
 			throw new InputMismatchException("Tentativa de adicionar um elemento de uma pilha cheia");
+	}
+	
+	private void undoPop(TadPilha stck) {
+		stck.push(stck.getRetorno());
 	}
 	
 	private Integer[] intArrayBoxing(int[] intArray) {
