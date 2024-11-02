@@ -1,40 +1,41 @@
-package queue.circularqueue;
+package queue.deque;
 
 import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
 
-// Creating class
-public class Queue <T> {
+// Double-ended queue (Deque)
 
+// Creating class
+public class Deque <T> {
 	// Instance Variables
 	private int capacity;
 	private int start;
 	private int end;
 	private int elementsQty;
 	private T[] elements;
-	
+
 	// Instance block(or block)
 	{
 		start = 0; // Executed when a object is instantiated in scope inside it, accessing its own instance variables
 		end = -1;
 		elementsQty = 0;
 	}
-	
+
 	// Constructor of class
 	@SuppressWarnings("unchecked")
-	public Queue(Class<T> c, int capacity) {
+	public Deque(Class<T> c, int capacity) {
 		this.capacity = capacity;
 		elements = (T[]) Array.newInstance(c, capacity);
 	}
-	
+
 	public boolean isFull() {
 		if (elementsQty == capacity)
 			return true;
 		else
 			return false;
-					
+
 	}
-	
+
 	public boolean isEmpty() {
 		if (elementsQty == 0)
 			return true;
@@ -42,9 +43,25 @@ public class Queue <T> {
 			return false;
 	}
 	
-	// Method enqueue
+	// Method addFirst
 	// O(1)
-	public void enqueue(T value) {
+	public void addFirst(T value) {
+		if (isFull())
+			throw new IllegalStateException("Stack is full");
+		else {
+			if (start == 0)
+				start = capacity;
+			start--;
+			if (isEmpty())
+				end = start;
+			elements[start] = value;
+			elementsQty++;
+		}
+	}
+
+	// Method addLast
+	// O(1)
+	public void addLast(T value) {
 		if (isFull())
 			throw new IllegalStateException("Stack is full");
 		else {
@@ -55,34 +72,61 @@ public class Queue <T> {
 			elementsQty++;
 		}
 	}
-	
-	// Method dequeue
-    // O(1)
-	public T dequeue() {
+
+	// Method removeFirst
+	// O(1)
+	public T removeFirst() {
 		if (isEmpty())
 			throw new NoSuchElementException("Stack is empty");
 		else {
 			T first = elements[start];
-			
+
 			elements[start] = null;
 			start++;
 			if (start == capacity)
 				start = 0;
-			
+
 			elementsQty--;
 			return first;
 		}
 	}
 	
-	// Method peek
+	// Method removeLast
 	// O(1)
-	public T peek() {
+	public T removeLast() {
+		if (isEmpty())
+			throw new NoSuchElementException("Stack is empty");
+		else {
+			T last = elements[end];
+			
+			elements[end] =  null;
+			end--;
+			if (end == -1)
+				end = capacity - 1;
+			
+			elementsQty--;
+			return last;
+		}
+	}
+
+	// Method getFirst
+	// O(1)
+	public T getFirst() {
 		if (isEmpty())
 			throw new NoSuchElementException("Stack is empty");
 		else
 			return elements[start];
 	}
 	
+	// Method getLast
+	// O(1)
+	public T getLast() {
+		if (isEmpty())
+			throw new NoSuchElementException("Stack is empty");
+		else
+			return elements[end];
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
 		if (!isEmpty()) {
@@ -101,7 +145,7 @@ public class Queue <T> {
 		sb.append("]");
 		return sb.toString();
 	}
-	
+
 	// Learning purpose method to see all values in array elements, including the elements not controlled by the lastPosition variable
 	public String checkMemory() {
 		StringBuilder sb = new StringBuilder("[");

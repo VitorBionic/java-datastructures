@@ -1,5 +1,6 @@
 package stack;
 import java.lang.reflect.Array;
+import java.util.NoSuchElementException;
 
 // Creating class
 public class Stack <T> {
@@ -39,7 +40,7 @@ public class Stack <T> {
     // O(1)
 	public void push(T value) {
 		if (isFull())
-			throw new ArrayIndexOutOfBoundsException("Stack is full");
+			throw new IllegalStateException("Stack is full");
 		else {
 			top++;
 			elements[top] = value;
@@ -50,7 +51,7 @@ public class Stack <T> {
     // O(1)
 	public T peek() {
 		if (isEmpty())
-			throw new NullPointerException("Stack is empty");
+			throw new NoSuchElementException("Stack is empty");
 		else
 			return elements[top];			
 	}

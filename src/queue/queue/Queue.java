@@ -1,6 +1,7 @@
 package queue.queue;
 
 import java.lang.reflect.Array;
+import java.util.NoSuchElementException;
 
 // Creating class
 public class Queue<T> {
@@ -40,7 +41,7 @@ public class Queue<T> {
 	// O(1)
 	public void enqueue(T value) {
 		if (isFull())
-			throw new ArrayIndexOutOfBoundsException("Stack is full");
+			throw new IllegalStateException("Stack is full");
 		else {
 			end++;
 			elements[end] = value;
@@ -51,7 +52,7 @@ public class Queue<T> {
 	// O(n)
 	public T dequeue() {
 		if (isEmpty())
-			throw new NullPointerException("Stack is empty");
+			throw new NoSuchElementException("Stack is empty");
 		else {
 			T first = elements[0];
 			for (int i = 0; i < end; i++)
@@ -66,7 +67,7 @@ public class Queue<T> {
 	// O(1)
 	public T peek() {
 		if (isEmpty())
-			throw new NullPointerException("Stack is empty");
+			throw new NoSuchElementException("Stack is empty");
 		else
 			return elements[0];
 	}

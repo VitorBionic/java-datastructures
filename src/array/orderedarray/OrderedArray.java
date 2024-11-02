@@ -25,7 +25,7 @@ public class OrderedArray <T extends Comparable<T>> {
 	// Method get - Just to recover the values of the private instance variable elements
 	public T get(int index) {
 		if (index > lastPosition)
-			throw new IllegalArgumentException("Index " + index + " is out of bounds for length " + (lastPosition + 1));
+			throw new ArrayIndexOutOfBoundsException("Index " + index + " is out of bounds for length " + (lastPosition + 1));
 		return elements[index];
 	}
 	
@@ -33,7 +33,7 @@ public class OrderedArray <T extends Comparable<T>> {
 	// O(n)
 	public void insert(T value) {
 		if (lastPosition == capacity - 1)
-			throw new ArrayIndexOutOfBoundsException("Array is full");
+			throw new IllegalStateException("Array is full");
 		int position = 0;
 		for (int i = 0; i < lastPosition + 1; i++) {
 			position = i;

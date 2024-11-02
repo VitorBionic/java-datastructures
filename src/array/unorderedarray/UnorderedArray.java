@@ -31,7 +31,7 @@ public class UnorderedArray <T> {
 	// O(1)
 	public void insert(T element) {
 		if (lastPosition == capacity - 1)
-			throw new ArrayIndexOutOfBoundsException("Array is full");
+			throw new IllegalStateException("Array is full");
 		else {
 			lastPosition++;
 			elements[lastPosition] = element;
@@ -50,14 +50,15 @@ public class UnorderedArray <T> {
 	
 	// Method remove
 	// O(n)
-	public void remove(T value) {
+	public boolean remove(T value) {
 		int index = search(value);
 		if (index == -1)
-			throw new ArrayIndexOutOfBoundsException("Value doesn't exist in the array");
+			return false;
 		for (int i = index; i < lastPosition; i++)
 			elements[i] = elements[i + 1];
 		elements[lastPosition] = null;
 		lastPosition--;
+		return true;
 	}
 	
 	@Override
