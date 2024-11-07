@@ -1,6 +1,5 @@
 package queue.queue;
 
-import queue.queue.Queue;
 
 public class Program {
 	public static void main(String[] args) {
