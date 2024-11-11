@@ -13,6 +13,10 @@ public class UnorderedArray <T> {
 		lastPosition = -1; // Executed when a object is instantiated in scope inside it, accessing its own instance variables
 	}
 	
+	public boolean isEmpty() {
+		return lastPosition == -1;
+	}
+	
 	// Constructor of class
 	@SuppressWarnings("unchecked")
 	public UnorderedArray(int capacity) {

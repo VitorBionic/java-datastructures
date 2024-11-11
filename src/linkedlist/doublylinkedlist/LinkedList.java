@@ -269,4 +269,91 @@ public class LinkedList<T> {
 		sb.append("]");
 		return sb.toString();
 	}
+	
+	// Method to implement sort
+	private void remove(Node<T> node) {
+		if (isEmpty())
+			return;
+		if (isThereJustOne()) {
+			head = null;
+			tail = head;
+		} else {
+			Node<T> current = head;
+			while (current != node && current != null)
+				current = current.getNext();
+			if (current != null) {
+				if (current.getPrev() == null) {
+					head = head.getNext();
+					head.setPrev(null);
+					current.setNext(null);
+				} else if (current.getNext() == null) {
+					Node<T> prev = tail.getPrev();
+					prev.setNext(null);
+					current.setPrev(null);
+					tail = prev;
+				}  else {
+					Node<T> prev = current.getPrev();
+					Node<T> next = current.getNext();
+					prev.setNext(next);
+					next.setPrev(prev);
+					current.setPrev(null);
+					current.setNext(null);
+				}
+			} else
+				return;
+		}
+		size--;
+	}
+	
+	// Method to implement sort
+	private void addAfter(Node<T> current, Node<T> after)  {
+		Node<T> next = current.getNext();
+		after.setPrev(current);
+		after.setNext(next);
+		next.setPrev(after);
+		current.setNext(after);
+		size++;
+	}
+	
+	// Method to implement sort
+	private void addFirst(Node<T> newNode) {
+		newNode.setNext(head);
+		if (isEmpty()) {
+			head = newNode;
+			tail = head;
+		} else {
+			head.setPrev(newNode);
+			head = newNode;
+		}
+		size++;
+	}
+	
+	// Method sort (Insertion Sort)
+	// O(n^2)
+	public static <T extends Comparable<T>> void sort(LinkedList<T> ll) {
+		if (ll.getSize() <= 1)
+			return;
+		Node<T> current;
+		Node<T> ins;
+		Node<T> end = ll.head;
+		while (end != ll.tail) {
+			current = end.getNext();
+			ll.remove(current);
+			ins = end;
+			boolean beforeHead = false;
+			while (((ins.getPrev() != null || ins == ll.head) && !beforeHead) &&
+					ins.getElement().compareTo(current.getElement()) > 0) {
+				if (ins == ll.head)
+					beforeHead = true;
+				else
+					ins = ins.getPrev();
+			}
+			if (beforeHead)
+				ll.addFirst(current);
+			else
+				ll.addAfter(ins, current);
+			if (ins == end)
+				end = end.getNext();
+		}
+	}
 }

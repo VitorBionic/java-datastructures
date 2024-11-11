@@ -1,0 +1,20 @@
+The rules are:
+1. The squares are numbered sequentially, starting with 1.
+2. Each player has a piece that will mark their position on the board.
+
+3. The player can decide, on his turn to play, after rolling the die, whether to move his piece clockwise (from left to right, using the getNext() method) or counterclockwise (from right to left, using the getPrevious() method).
+
+4. Each square on the board has 3 possible statuses: free, marked and owned.
+a. When landing on a free square, it will be marked in favor of the player.
+b. When landing on a square marked by another player, it will be unmarked and will return to free status.
+c. The player, upon landing for the second time on a square previously marked by him, will become the owner of that square.
+
+5. The player who lands on a square owned by another player does not play in the next round.
+
+6. The player who conquers a house next to another house owned by him/her wins a new house, with the status of his/her property.
+
+7. The player who conquers 2 houses, one on each side of a house owned by another player, destroys this house. This rule is only valid in the case of 2 houses involving 1. Two or more adjacent houses owned by the same player can no longer be eliminated.
+
+8. The game ends in two possible situations (whichever occurs first):
+a. After the number of moves established at the beginning of the game. The winner is the player who has the most owned houses with the following tiebreaker criteria: i. Sum of marked houses ii. Number of connections between houses of the same property (2 houses have 1 connection).
+b. When the sum of houses owned by a player is greater than the sum of the houses owned by the second player with the greatest number of owned houses added to the free houses.
