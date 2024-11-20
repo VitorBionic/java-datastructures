@@ -33,10 +33,13 @@ public class LinkedList <T> {
 	// O(1)
 	public void addFirst(T value) {
 		Node<T> newNode = new Node<>(value);
-		newNode.setNext(head);
-		head = newNode;
-		if (isEmpty())
+		if (isEmpty()) {
+			head = newNode;
 			tail = head;
+		} else {
+		    newNode.setNext(head);
+		    head = newNode;
+		}
 		size++;
 	}
 	
@@ -44,10 +47,14 @@ public class LinkedList <T> {
 	// O(1)
 	public void addLast(T value) {
 		Node<T> newNode = new Node<>(value);
-		tail.setNext(newNode);
-		tail = newNode;
-		if (isEmpty())
+		if (isEmpty()) {
+			tail = newNode;
 			head = tail;
+		}
+		else {
+		    tail.setNext(newNode);
+		    tail = newNode;
+		}
 		size++;
 	}
 	

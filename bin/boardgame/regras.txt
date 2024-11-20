@@ -1,0 +1,38 @@
+As regras são:
+1. As casas são numeradas sequencialmente iniciando por 1.
+2. Cada jogador possui uma peça que marcará sua posição no tabuleiro.
+
+3. O jogador pode decidir, na sua vez de jogar, após lançado o dado, se vai 
+movimentar a sua peça no sentido horário (da esquerda para a direita, 
+utilizando o método getProximo()) ou no anti-horário (da direita para a 
+esquerda, utilizando o método getAnterior()).
+
+4. Cada casa do tabuleiro tem 3 possíveis status: livre, marcada e 
+proprietária.
+a. Ao cair em uma casa livre, esta será marcada a favor do jogador.
+b. Ao cair em uma casa marcada por outro jogador, esta será desmarcada e 
+voltará ao status livre.
+c. O jogador, ao cair pela segunda vez em uma casa anteriormente marcada 
+por ele, passará a ser proprietário desta casa.
+
+5. O jogador que cair em uma casa proprietária de outro jogador não joga na 
+próxima rodada.
+
+6. O jogador que conquistar uma casa contígua a outra de sua propriedade, ganha 
+uma nova casa, já com o status de sua propriedade.
+
+7. O jogador que conquistar 2 casas, uma de cada lado de uma casa proprietária 
+de outro jogador, destrói esta casa. Esta regra só é válida para o caso de 2 casas 
+envolverem 1. Duas ou mais casas contíguas, de propriedade do mesmo jogador, 
+não podem mais ser eliminadas.
+
+8. O jogo se encerra em duas possíveis situações (a que ocorrer primeiro):
+a. Após a quantidade de jogadas estabelecidas no início do jogo. Ganha 
+quem tiver mais casas proprietárias com os seguintes critérios de 
+desempate:
+i. Soma das casas marcadas
+ii. Quantidade de ligações entre casas de mesma propriedade (2 casas 
+tem 1 ligação)
+b. Quando a soma de casas de propriedade de um jogador for maior que a 
+soma das casas proprietárias do segundo jogador com maior número de 
+casas proprietária somadas às casas livres.

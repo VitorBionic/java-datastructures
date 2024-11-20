@@ -60,6 +60,8 @@ public class BoardGame {
 			canPlay[current - 1] = true;
 			turnsCount++;
 			current++;
+			if (current == playersCount() + 1)
+				current = 1;
 		}
 		turn = current;
 	}
