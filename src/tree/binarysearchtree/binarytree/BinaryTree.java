@@ -1,4 +1,4 @@
-package tree.binarysearchtree;
+package tree.binarysearchtree.binarytree;
 
 import java.util.function.Consumer;
 
@@ -84,15 +84,11 @@ public class BinaryTree <T extends Comparable<T>> {
 						newCurrentParent = newCurrent;
 						newCurrent = newCurrent.getRight();
 					}
+					
 					if (newCurrent == newCurrentParent) {
 						newCurrent.setRight(current.getRight());
-					}
-					else if (newCurrent.getLeft() != null) {
-						newCurrentParent.setRight(newCurrent.getLeft());
-						newCurrent.setLeft(current.getLeft());
-						newCurrent.setRight(current.getRight());
 					} else {
-						newCurrentParent.setRight(null);
+						newCurrentParent.setRight(newCurrent.getLeft());
 						newCurrent.setLeft(current.getLeft());
 						newCurrent.setRight(current.getRight());
 					}
@@ -108,6 +104,23 @@ public class BinaryTree <T extends Comparable<T>> {
 			}
 		}
 		return null;
+	}
+	
+	// Method search
+	// O(log n)
+	public boolean search(T value) {
+		if (isEmpty())
+			return false;
+		Node<T> current = root;
+		while (current != null) {
+			if (value.equals(current.getElement()))
+				return true;
+			else if (value.compareTo(current.getElement()) < 0)
+				current = current.getLeft();
+			else if (value.compareTo(current.getElement()) > 0)
+				current = current.getRight();
+		}
+		return false;
 	}
 	
 	public void inOrderTraversal(Consumer<Node<T>> consumer) {
@@ -147,7 +160,7 @@ public class BinaryTree <T extends Comparable<T>> {
 	}
 	
 	public void levelOrderTraversal(Consumer<Node<T>> consumer) {
-		if (root != null) {
+		if (!isEmpty()) {
 			
 			Node<T> current = root;
 			queue.dynamicqueue.Queue<Node<T>> queue = new queue.dynamicqueue.Queue<Node<T>>();
@@ -166,7 +179,7 @@ public class BinaryTree <T extends Comparable<T>> {
 	}
 	
 	public void inOrderTraversalIT(Consumer<Node<T>> consumer) {
-		if (root == null)
+		if (isEmpty())
 			return;
 		if (root.getLeft() == null && root.getRight() == null) {
 			consumer.accept(root);

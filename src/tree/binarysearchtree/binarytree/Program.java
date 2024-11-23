@@ -1,4 +1,4 @@
-package tree.binarysearchtree;
+package tree.binarysearchtree.binarytree;
 
 import java.util.function.Consumer;
 
@@ -29,14 +29,18 @@ public class Program {
 		System.out.print("levelOrderTraversal: ");
 		tree.levelOrderTraversal(print);
 		System.out.println();
+		System.out.print("inOrderTraversalIT: ");
+		tree.inOrderTraversalIT(print);
+		System.out.println();
 		System.out.print("preOrderTraversalIT: ");
 		tree.preOrderTraversalIT(print);
 		System.out.println();
 		System.out.print("posOrderTraversalIT: ");
 		tree.posOrderTraversalIT(print);
 		System.out.println();
-		
-		tree.remove(5);
+		System.out.println("search(5): " + tree.search(5));
+			
+		System.out.println("Removing: " + tree.remove(5));
 		System.out.println();
 		System.out.println();
 		System.out.print("inOrderTraversal: ");
@@ -60,7 +64,7 @@ public class Program {
 		System.out.print("posOrderTraversalIT: ");
 		tree.posOrderTraversalIT(print);
 		System.out.println();
-		
+		System.out.println("search(5): " + tree.search(5));
 
 	}
 

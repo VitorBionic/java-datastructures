@@ -1,12 +1,12 @@
-package tree.binarysearchtree;
+package tree.binarysearchtree.avltree;
 
 import java.util.function.Consumer;
 
-import node.btnode.Node;
+import node.avlnode.Node;
 
 public class Program2 {
 	public static void main(String[] args) {
-		BinaryTree<Integer> tree = new BinaryTree<>();
+		AVLTree<Integer> tree = new AVLTree<>();
 		for (int i = 0; i < 10000; i++)
 			tree.add(i);
 		
@@ -20,6 +20,9 @@ public class Program2 {
 		System.out.println();
 		System.out.print("posOrderTraversalIT: ");
 		tree.posOrderTraversalIT(print);
+		System.out.println();
+		System.out.print("levelOrderTraversal: ");
+		tree.levelOrderTraversal(print);
 		System.out.println();
 		
 	}
