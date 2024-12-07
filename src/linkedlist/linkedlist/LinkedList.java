@@ -29,6 +29,12 @@ public class LinkedList <T> {
 		return size;
 	}
 	
+	public void clear() {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+	
 	// Method addFirst
 	// O(1)
 	public void addFirst(T value) {
