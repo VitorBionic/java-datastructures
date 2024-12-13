@@ -14,6 +14,7 @@ public class TestRemove {
 		tree1.add(8);
 		
         Consumer<Node<Integer>> print = (node) -> System.out.print(node.getElement() + " ");
+        
 		System.out.println("TREE 1:");
 		System.out.print("inOrderTraversal: ");
 		tree1.inOrderTraversal(print);
@@ -124,5 +125,90 @@ public class TestRemove {
 		System.out.print("posOrderTraversalIT: ");
 		tree2.posOrderTraversalIT(print);
 		System.out.println();
+		
+		AVLTree<Integer> tree3 = new AVLTree<>();
+		tree3.add(13);
+		tree3.add(24);
+		tree3.add(68);
+		tree3.add(777);
+		tree3.add(52);
+		tree3.add(111);
+		tree3.add(-9);
+		tree3.add(1024);
+		
+		System.out.println("----------------------------------");
+		System.out.println("TREE 3:");
+		
+		System.out.print("inOrderTraversal: ");
+		tree3.inOrderTraversal(print);
+		System.out.println();
+		System.out.print("preOrderTraversal: ");
+		tree3.preOrderTraversal(print);
+		System.out.println();
+		System.out.print("posOrderTraversal: ");
+		tree3.posOrderTraversal(print);
+		System.out.println();
+		System.out.print("levelOrderTraversal: ");
+		tree3.levelOrderTraversal(print);
+		System.out.println();
+		System.out.print("inOrderTraversalIT: ");
+		tree3.inOrderTraversalIT(print);
+		System.out.println();
+		System.out.print("preOrderTraversalIT: ");
+		tree3.preOrderTraversalIT(print);
+		System.out.println();
+		System.out.print("posOrderTraversalIT: ");
+		tree3.posOrderTraversalIT(print);
+		System.out.println();
+		
+		System.out.println("Removing: " + tree3.remove(777));
+		System.out.print("inOrderTraversal: ");
+		tree3.inOrderTraversal(print);
+		System.out.println();
+		System.out.print("preOrderTraversal: ");
+		tree3.preOrderTraversal(print);
+		System.out.println();
+		System.out.print("posOrderTraversal: ");
+		tree3.posOrderTraversal(print);
+		System.out.println();
+		System.out.print("levelOrderTraversal: ");
+		tree3.levelOrderTraversal(print);
+		System.out.println();
+		System.out.print("inOrderTraversalIT: ");
+		tree3.inOrderTraversalIT(print);
+		System.out.println();
+		System.out.print("preOrderTraversalIT: ");
+		tree3.preOrderTraversalIT(print);
+		System.out.println();
+		System.out.print("posOrderTraversalIT: ");
+		tree3.posOrderTraversalIT(print);
+		System.out.println();
+		
+		System.out.println("Removing: " + tree3.remove(52));
+		
+		System.out.print("inOrderTraversal: ");
+		tree3.inOrderTraversal(print);
+		
+		System.out.println();
+		System.out.print("preOrderTraversal: ");
+		tree3.preOrderTraversal(print);
+		System.out.println();
+		System.out.print("posOrderTraversal: ");
+		tree3.posOrderTraversal(print);
+		System.out.println();
+		System.out.print("levelOrderTraversal: ");
+		tree3.levelOrderTraversal(print);
+		System.out.println();
+		System.out.print("inOrderTraversalIT: ");
+		tree3.inOrderTraversalIT(print);
+		System.out.println();
+		System.out.print("preOrderTraversalIT: ");
+		tree3.preOrderTraversalIT(print);
+		System.out.println();
+		System.out.print("posOrderTraversalIT: ");
+		tree3.posOrderTraversalIT(print);
+		System.out.println();
+
 	}
+	
 }

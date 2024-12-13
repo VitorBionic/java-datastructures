@@ -179,6 +179,23 @@ public class HashTable <K, V> {
 		return sb.toString();
 	}
 	
+	public String toStringLinear() {
+		StringBuilder sb = new StringBuilder("[");
+		boolean first = true;
+		for (int i = 0; i < table.length; i++) {
+			for (int j = 0; j < table[i].getSize(); j++) {
+				if (first) {
+					sb.append(table[i].get(j).getValue());
+					first = false;
+					continue;
+				}
+				sb.append(", " + table[i].get(j).getValue());
+			}
+		}
+		sb.append("]");
+		return sb.toString();
+	}
+	
 	
 	
 	

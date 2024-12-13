@@ -45,4 +45,8 @@ public class Node <T> {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+	
+	public String toString() {
+		return "" + element;
+	}
 }
