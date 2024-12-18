@@ -296,7 +296,7 @@ public class AVLTree<T extends Comparable<T>> {
 							hl = child.getLeft() != null ? child.getLeft().getHeight() : 0;
 							hr = child.getRight() != null ? child.getRight().getHeight() : 0;
 							balanceFactor = hl - hr;
-							if (balanceFactor <= 0)
+							if (balanceFactor < 0)
 								leftRotation(current, parent);
 							else
 								rightLeftRotation(current, parent);
@@ -305,7 +305,7 @@ public class AVLTree<T extends Comparable<T>> {
 							hl = child.getLeft() != null ? child.getLeft().getHeight() : 0;
 							hr = child.getRight() != null ? child.getRight().getHeight() : 0;
 							balanceFactor = hl - hr;
-							if (balanceFactor >= 0)
+							if (balanceFactor > 0)
 								rightRotation(current, parent);
 							else
 								leftRightRotation(current, parent);
