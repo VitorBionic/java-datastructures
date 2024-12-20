@@ -1,4 +1,4 @@
-package graph.adjacencymatrix.undirectedunweightedgraph;
+package graph.adjacencymatrix.directedweightedgraph;
 
 import java.util.function.Consumer;
 
@@ -8,11 +8,11 @@ import queue.dynamicqueue.Queue;
 
 public class Graph <T> {
 	private DynamicArray<T> verticesLabels;
-	private boolean[][] adjacencyMatrix;
+	private Integer[][] adjacencyMatrix;
 
 	public Graph(Class<T> c) {
 		this.verticesLabels = new DynamicArray<T>(c);
-		this.adjacencyMatrix = new boolean[verticesLabels.getCapacity()][verticesLabels.getCapacity()];
+		this.adjacencyMatrix = new Integer[verticesLabels.getCapacity()][verticesLabels.getCapacity()];
 	}
 
 	public int size() {
@@ -25,32 +25,34 @@ public class Graph <T> {
 
 	private void rebuildMatrix() {
 		if (adjacencyMatrix.length != verticesLabels.getCapacity()) {
-			boolean[][] temp = adjacencyMatrix;
-			adjacencyMatrix = new boolean[verticesLabels.getCapacity()][verticesLabels.getCapacity()];
+			Integer[][] temp = adjacencyMatrix;
+			adjacencyMatrix = new Integer[verticesLabels.getCapacity()][verticesLabels.getCapacity()];
 			for (int i = 0; i < size(); i++) {
 				for (int j = 0; j < size(); j++)
 					adjacencyMatrix[i][j] = temp[i][j];
 			}
 		}
 	}
+	
+	public void addVertex(T label) {
+		verticesLabels.add(label);
+		rebuildMatrix();
+	}
 
-	public void addVertex(T label, int... adjacentsIndexes) {
+	public void addVertex(T label, int adjacentIndex, Integer weight) {
 		verticesLabels.add(label);
 		rebuildMatrix();
 		int newVertexIndex = size() - 1;
-		for (int i : adjacentsIndexes) {
-			adjacencyMatrix[newVertexIndex][i] = true;
-			adjacencyMatrix[i][newVertexIndex] = true;
-		}
+		adjacencyMatrix[newVertexIndex][adjacentIndex] = weight;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void addVertexByLabels(T label, T... adjacents) {
-		int[] indexes = new int[adjacents.length];
-		for (int i = 0; i < indexes.length; i++) {
-			indexes[i] = verticesLabels.indexOf(adjacents[i]);
-		}
-		addVertex(label, indexes);
+	public void addVertex(T label, T adjacentLabel, Integer weight) {
+		int index;
+		if (label.equals(adjacentLabel))
+			index = size();
+		else
+		    index = verticesLabels.indexOf(adjacentLabel);
+		addVertex(label, index, weight);
 	}
 
 	public T removeVertex(int index) {
@@ -60,12 +62,16 @@ public class Graph <T> {
 			adjacencyMatrix[index] = adjacencyMatrix[index + 1];
 			index++;
 		}
-		adjacencyMatrix[index] = new boolean[verticesLabels.getCapacity()];
+		adjacencyMatrix[index] = new Integer[verticesLabels.getCapacity()];
+		for (int i = 0; i < size(); i++) {
+			if (adjacencyMatrix[i][removedVertexIndex] != null)
+				adjacencyMatrix[i][removedVertexIndex] = null;
+		}
 		for (int i = 0; i < size(); i++) {
 			for (int j = removedVertexIndex; j < size(); j++) {
 				adjacencyMatrix[i][j] = adjacencyMatrix[i][j + 1];
 			}
-			adjacencyMatrix[i][size()] = false;
+			adjacencyMatrix[i][size()] = null;
 		}
 		return removed;
 	}
@@ -75,24 +81,30 @@ public class Graph <T> {
 		removeVertex(i);
 	}
 
-	public void addEdge(int vertexIndex1, int vertexIndex2) {
-		adjacencyMatrix[vertexIndex1][vertexIndex2] = true;
-		adjacencyMatrix[vertexIndex2][vertexIndex1] = true;
+	public void addEdge(int vertexIndex1, int vertexIndex2, Integer weight) {
+		adjacencyMatrix[vertexIndex1][vertexIndex2] = weight;
 	}
 
-	public void addEdge(T label1, T label2) {
-		addEdge(verticesLabels.indexOf(label1), verticesLabels.indexOf(label2));
+	public void addEdge(T label1, T label2, Integer weight) {
+		addEdge(verticesLabels.indexOf(label1), verticesLabels.indexOf(label2), weight);
 	}
 
 	public void removeEdge(int vertexIndex1, int vertexIndex2) {
-		adjacencyMatrix[vertexIndex1][vertexIndex2] = false;
-		adjacencyMatrix[vertexIndex2][vertexIndex1] = false;
+		adjacencyMatrix[vertexIndex1][vertexIndex2] = null;
 	}
 
 	public void removeEdge(T label1, T label2) {
 		removeEdge(verticesLabels.indexOf(label1), verticesLabels.indexOf(label2));
 	}
-
+	
+	public Integer getWeight(int vertexIndex1, int vertexIndex2) {
+		return adjacencyMatrix[vertexIndex1][vertexIndex2];
+	}
+	
+	public Integer getWeight(T label1, T label2) {
+		return adjacencyMatrix[verticesLabels.indexOf(label1)][verticesLabels.indexOf(label2)];
+	}
+	
 	public void DFS(Consumer<T> consumer) {
 		if (isEmpty())
 			throw new IllegalStateException("Graph is empty");
@@ -114,7 +126,7 @@ public class Graph <T> {
 			}
 			
 			for (int i = currentAdjacent + 1; i < size(); i++) {
-				if (adjacencyMatrix[currentIndex][i] && !visited[i]) {
+				if (adjacencyMatrix[currentIndex][i] != null && !visited[i]) {
 					currentIndexAndCurrentAdjacent[1] = i;
 					stack.push(new int[] {i, 0});
 					break;
@@ -144,7 +156,7 @@ public class Graph <T> {
 			    visitedOrInQueue[currentIndex] = true;
 			
 			for (int i = 1; i < size(); i++) {
-				if (adjacencyMatrix[currentIndex][i] && !visitedOrInQueue[i]) {
+				if (adjacencyMatrix[currentIndex][i] != null && !visitedOrInQueue[i]) {
 					queue.enqueue(i);
 					visitedOrInQueue[i] = true;
 				}
@@ -163,12 +175,13 @@ public class Graph <T> {
 			else
 				sb.append("i:" + i + " ->");
 			for (int j = 0; j < size(); j++) {
-				if (adjacencyMatrix[i][j]) {
+				if (adjacencyMatrix[i][j] != null) {
 					sb.append(" ");
 					if (verticesLabels.get(j) != null)
 						sb.append(verticesLabels.get(j));
 					else
 						sb.append("i:" + j);
+					sb.append("(" + getWeight(i, j) + ")");
 				}
 			}
 			sb.append("\n");

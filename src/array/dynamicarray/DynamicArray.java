@@ -63,6 +63,10 @@ public class DynamicArray <T> {
 	
 	public int indexOf(T element) {
 		for (int i = 0; i < count; i++) {
+			if (elements[i] == null) {
+				if (element == null)
+					return i;
+			}
 			if (elements[i].equals(element))
 				return i;
 		}
