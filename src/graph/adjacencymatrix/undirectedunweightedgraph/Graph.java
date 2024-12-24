@@ -7,6 +7,7 @@ import stack.dynamicstack.Stack;
 import queue.dynamicqueue.Queue;
 
 public class Graph <T> {
+	
 	private DynamicArray<T> verticesLabels;
 	private boolean[][] adjacencyMatrix;
 
@@ -39,6 +40,8 @@ public class Graph <T> {
 		rebuildMatrix();
 		int newVertexIndex = size() - 1;
 		for (int i : adjacentsIndexes) {
+			if (i < 0 || i >= size())
+				throw new IllegalArgumentException("Index " + i + " is out of range from 0 to length " + (size()));
 			adjacencyMatrix[newVertexIndex][i] = true;
 			adjacencyMatrix[i][newVertexIndex] = true;
 		}
@@ -76,6 +79,8 @@ public class Graph <T> {
 	}
 
 	public void addEdge(int vertexIndex1, int vertexIndex2) {
+		if ((vertexIndex1 < 0 || vertexIndex1 >= size()) || (vertexIndex2 < 0 || vertexIndex2 >= size()))
+			throw new IllegalArgumentException("Indexes " + vertexIndex1 + " or " + vertexIndex2 + " is out of range from 0 to length " + (size()));
 		adjacencyMatrix[vertexIndex1][vertexIndex2] = true;
 		adjacencyMatrix[vertexIndex2][vertexIndex1] = true;
 	}
@@ -85,6 +90,8 @@ public class Graph <T> {
 	}
 
 	public void removeEdge(int vertexIndex1, int vertexIndex2) {
+		if ((vertexIndex1 < 0 || vertexIndex1 >= size()) || (vertexIndex2 < 0 || vertexIndex2 >= size()))
+			throw new IllegalArgumentException("Indexes " + vertexIndex1 + " or " + vertexIndex2 + " is out of range from 0 to length " + (size()));
 		adjacencyMatrix[vertexIndex1][vertexIndex2] = false;
 		adjacencyMatrix[vertexIndex2][vertexIndex1] = false;
 	}

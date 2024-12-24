@@ -1,8 +1,11 @@
 package array.dynamicarray;
 
 import java.lang.reflect.Array;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class DynamicArray <T> {
+public class DynamicArray <T> implements Iterable <T> {
+	
 	private T[] elements;
 	private int capacity;
 	private int count;
@@ -131,5 +134,30 @@ public class DynamicArray <T> {
 			sb.append(", " + elements[i]);
 		sb.append("]");
 		return sb.toString();
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return new Itr();
+	}
+	
+	private class Itr implements Iterator<T> {
+		int cursor;
+		
+		Itr() {}
+		
+		@Override
+		public boolean hasNext() {
+			return cursor < count;
+		}
+		
+		@Override
+		public T next() {
+			int i = cursor;
+            if (!hasNext())
+                throw new NoSuchElementException();
+            cursor = i + 1;
+            return elements[i];
+		}
 	}
 }

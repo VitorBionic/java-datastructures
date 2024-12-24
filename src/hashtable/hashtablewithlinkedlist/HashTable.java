@@ -116,6 +116,8 @@ public class HashTable <K, V> {
 	// Method put
 	// O(1)
 	public void put(K key, V value) {
+		if (key == null)
+			throw new IllegalArgumentException("Key can't be null");
 		int hashIndex = hashFunction(key);
 		Entry<K, V> entry = new Entry<K, V>(key, value);
 		int index = table[hashIndex].indexOf(entry);

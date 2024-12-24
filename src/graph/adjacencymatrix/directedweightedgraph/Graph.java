@@ -7,6 +7,7 @@ import stack.dynamicstack.Stack;
 import queue.dynamicqueue.Queue;
 
 public class Graph <T> {
+	
 	private DynamicArray<T> verticesLabels;
 	private Integer[][] adjacencyMatrix;
 
