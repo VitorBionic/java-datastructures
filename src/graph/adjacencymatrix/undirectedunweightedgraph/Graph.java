@@ -51,7 +51,10 @@ public class Graph <T> {
 	public void addVertexByLabels(T label, T... adjacents) {
 		int[] indexes = new int[adjacents.length];
 		for (int i = 0; i < indexes.length; i++) {
-			indexes[i] = verticesLabels.indexOf(adjacents[i]);
+			if (label != null && label.equals(adjacents[i]))
+				indexes[i] = size();
+			else
+				indexes[i] = verticesLabels.indexOf(adjacents[i]);
 		}
 		addVertex(label, indexes);
 	}

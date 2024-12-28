@@ -7,7 +7,7 @@ import stack.dynamicstack.Stack;
 import queue.dynamicqueue.Queue;
 import hashtable.hashtablewithlinkedlist.HashTable;
 
-public class Graph<T> {
+public class Graph <T> {
 
 	private DynamicArray<T> verticesLabels;
 	private HashTable<Integer, Integer> adjacencyList;
@@ -40,7 +40,10 @@ public class Graph<T> {
 	public void addVertexByLabels(T label, T... adjacents) {
 		Integer[] indexes = new Integer[adjacents.length];
 		for (int i = 0; i < indexes.length; i++) {
-			indexes[i] = verticesLabels.indexOf(adjacents[i]);
+			if (label != null && label.equals(adjacents[i]))
+				indexes[i] = size();
+			else
+				indexes[i] = verticesLabels.indexOf(adjacents[i]);
 		}
 		addVertex(label, indexes);
 	}
@@ -153,10 +156,11 @@ public class Graph<T> {
 				newAdjacencyList.put(currentIndex, adjacentIndex);
 				if (!visitedOrInQueue[adjacentIndex]) {
 					queue.enqueue(adjacentIndex);
-					visitedOrInQueue[currentIndex] = true;
+					visitedOrInQueue[adjacentIndex] = true;
 				}
 			}
 		}
+		this.adjacencyList = newAdjacencyList;
 	}
 
 	@Override
