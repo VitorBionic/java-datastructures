@@ -1,4 +1,4 @@
-package algorithms.numbersystemconverter;
+package algorithms.example.numbersystemconverter;
 
 import stack.dynamicstack.Stack;
 import hashtable.hashtablewithlinkedlist.HashTable;

@@ -47,7 +47,7 @@ public class Deque <T> {
 	// O(1)
 	public void addFirst(T value) {
 		if (isFull())
-			throw new IllegalStateException("Stack is full");
+			throw new IllegalStateException("Deque is full");
 		else {
 			if (start == 0)
 				start = capacity;
@@ -63,7 +63,7 @@ public class Deque <T> {
 	// O(1)
 	public void addLast(T value) {
 		if (isFull())
-			throw new IllegalStateException("Stack is full");
+			throw new IllegalStateException("Deque is full");
 		else {
 			if (end == capacity - 1)
 				end = -1;
@@ -77,7 +77,7 @@ public class Deque <T> {
 	// O(1)
 	public T removeFirst() {
 		if (isEmpty())
-			throw new NoSuchElementException("Stack is empty");
+			throw new NoSuchElementException("Deque is empty");
 		else {
 			T first = elements[start];
 
@@ -95,7 +95,7 @@ public class Deque <T> {
 	// O(1)
 	public T removeLast() {
 		if (isEmpty())
-			throw new NoSuchElementException("Stack is empty");
+			throw new NoSuchElementException("Deque is empty");
 		else {
 			T last = elements[end];
 			
@@ -113,7 +113,7 @@ public class Deque <T> {
 	// O(1)
 	public T getFirst() {
 		if (isEmpty())
-			throw new NoSuchElementException("Stack is empty");
+			throw new NoSuchElementException("Deque is empty");
 		else
 			return elements[start];
 	}
@@ -122,7 +122,7 @@ public class Deque <T> {
 	// O(1)
 	public T getLast() {
 		if (isEmpty())
-			throw new NoSuchElementException("Stack is empty");
+			throw new NoSuchElementException("Deque is empty");
 		else
 			return elements[end];
 	}

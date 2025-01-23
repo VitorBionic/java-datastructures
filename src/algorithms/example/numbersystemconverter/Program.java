@@ -1,4 +1,4 @@
-package algorithms.numbersystemconverter;
+package algorithms.example.numbersystemconverter;
 
 public class Program {
     public static void main(String[] args) {
