@@ -1,10 +1,14 @@
 package hashtable.hashtablewithlinkedlist;
 
 import linkedlist.linkedlist.LinkedList;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import hashtable.Entry;
 
 //Creating class
-public class HashTable <K, V> {
+public class HashTable <K, V> implements Iterable<V> {
 	
 	// Instance Variables
 	private int buckets;
@@ -197,6 +201,42 @@ public class HashTable <K, V> {
 		sb.append("]");
 		return sb.toString();
 	}
+
+    @Override
+    public Iterator<V> iterator() {
+        return new Itr();
+    }
+    
+    private class Itr implements Iterator<V> {
+        int currentBucket;
+        Iterator<Entry<K, V>> currentIterator;
+        
+        Itr() {
+            currentIterator = table[0].iterator();
+        }
+        
+        @Override
+        public boolean hasNext() {
+            while (currentBucket < buckets) {
+                if (!currentIterator.hasNext()) {
+                    currentBucket++;
+                    if (currentBucket >= buckets)
+                        break;
+                    currentIterator = table[currentBucket].iterator();
+                } else
+                    return true;
+            }
+            return false;
+        }
+
+        @Override
+        public V next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+            return currentIterator.next().getValue();
+        }
+        
+    }
 	
 	
 	

@@ -1,9 +1,12 @@
 package linkedlist.linkedlist;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import node.simplenode.Node;
 
 // Creating class
-public class LinkedList <T> {
+public class LinkedList<T> implements Iterable<T> {
 	
 	// Instance Variables
 	private Node<T> head;
@@ -237,6 +240,33 @@ public class LinkedList <T> {
     	}
     	sb.append("]");
     	return sb.toString();
+    }
+    
+    @Override
+    public Iterator<T> iterator() {
+        return new Itr();
+    }
+    
+    private class Itr implements Iterator<T> {
+        Node<T> cursor;
+        
+        Itr() {
+            cursor = head;
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return cursor != null;
+        }
+        
+        @Override
+        public T next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+            T element = cursor.getElement();
+            cursor = cursor.getNext();
+            return element;
+        }
     }
 	
 }

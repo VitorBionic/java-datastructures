@@ -126,6 +126,7 @@ public class DynamicArray <T> implements Iterable <T> {
 		return false;
 	}
 	
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
 		if (!isEmpty())
