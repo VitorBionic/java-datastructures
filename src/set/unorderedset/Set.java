@@ -96,7 +96,7 @@ public class Set <T> implements Iterable<T> {
 	
 	@Override
     public Iterator<T> iterator() {
-        return hashSet.iterator();
+        return hashSet.values();
     }
     
 }

@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 import hashtable.Entry;
 
 //Creating class
-public class HashTable <K, V> implements Iterable<V> {
+public class HashTable <K, V> implements Iterable<Entry<K, V>> {
 	
 	// Instance Variables
 	private int buckets;
@@ -62,20 +62,20 @@ public class HashTable <K, V> implements Iterable<V> {
 	public boolean containsKey(K key) {
 		int hashIndex = hashFunction(key);
 		if (!table[hashIndex].isEmpty()) {
-			int size = table[hashIndex].getSize();
-			for (int i = 0; i < size; i++) {
-				Entry<K, V> current = table[hashIndex].get(i);
-				if (current.getKey().equals(key))
-					return true;
-			}
+		    Iterator<Entry<K, V>> itr = table[hashIndex].iterator();
+		    while (itr.hasNext()) {
+		        Entry<K, V> current = itr.next();
+		        if (current.getKey().equals(key))
+                    return true;
+		    }	    
 		}
 		return false;
 	}
 	
 	public boolean containsValue(V value)  {
 		for (LinkedList<Entry<K, V>> ll : table) {
-			for (int i = 0; i < ll.getSize(); i++) {
-				if (ll.get(i).getValue().equals(value))
+			for (Entry<K, V> entry : ll) {
+				if (entry.getValue().equals(value))
 					return true;
 			}
 		}
@@ -109,9 +109,8 @@ public class HashTable <K, V> implements Iterable<V> {
 		for (int i = 0; i < table.length; i++)
 			table[i] = new LinkedList<Entry<K,V>>();
 		for (LinkedList<Entry<K, V>> ll : oldTable) {
-			int size = ll.getSize();
-			for (int i = 0; i < size; i++) {
-				Entry<K, V> current = ll.get(i); 
+		    for (Entry<K, V> entry : ll) {
+				Entry<K, V> current = entry; 
 				put(current.getKey(), current.getValue());
 			}
 		}
@@ -123,10 +122,17 @@ public class HashTable <K, V> implements Iterable<V> {
 		if (key == null)
 			throw new IllegalArgumentException("Key can't be null");
 		int hashIndex = hashFunction(key);
-		Entry<K, V> entry = new Entry<K, V>(key, value);
-		int index = table[hashIndex].indexOf(entry);
-		if (index == -1) {
-		    table[hashIndex].addLast(entry);
+		Entry<K, V> newEntry = new Entry<K, V>(key, value);
+		//
+		boolean overrided = false;
+		for (Entry<K, V> entry : table[hashIndex]) {
+		    if (entry.getKey().equals(newEntry.getKey())) {
+		        entry.setValue(newEntry.getValue());
+		        overrided = true;
+		    }
+		}
+		if (!overrided) {
+		    table[hashIndex].addLast(newEntry);
 		    count++;
 		}
 		
@@ -139,17 +145,16 @@ public class HashTable <K, V> implements Iterable<V> {
 	public V remove(K key) {
 		int hashIndex = hashFunction(key);
 		V removed = null;
-		int size = table[hashIndex].getSize();
-		for (int i = 0; i < size; i++) {
-			Entry<K, V> current = table[hashIndex].get(i);
+		int i = 0;
+		for (Entry<K, V> current : table[hashIndex]) {
 			if (current.getKey().equals(key)) {
 				removed = current.getValue();
 				table[hashIndex].remove(i);
+				count--;
 			    break;
 			}
+			i++;
 		}
-		if (removed != null)
-		    count--;
 		return removed;
 	}
 	
@@ -168,9 +173,7 @@ public class HashTable <K, V> implements Iterable<V> {
 	// O(1)
 	public V get(K key) {
 		int hashIndex = hashFunction(key);
-		int size = table[hashIndex].getSize();
-		for (int i = 0; i < size; i++) {
-			Entry<K, V> current = table[hashIndex].get(i);
+		for (Entry<K, V> current : table[hashIndex]) {
 			if (current.getKey().equals(key))
 				return current.getValue();
 		}
@@ -201,13 +204,21 @@ public class HashTable <K, V> implements Iterable<V> {
 		sb.append("]");
 		return sb.toString();
 	}
+	
+	public Iterator<K> keys() {
+	    return new KeyItr();
+	}
+	
+	public Iterator<V> values() {
+        return new ValueItr();
+    }
 
     @Override
-    public Iterator<V> iterator() {
+    public Iterator<Entry<K, V>> iterator() {
         return new Itr();
     }
     
-    private class Itr implements Iterator<V> {
+    private class Itr implements Iterator<Entry<K, V>> {
         int currentBucket;
         Iterator<Entry<K, V>> currentIterator;
         
@@ -230,15 +241,56 @@ public class HashTable <K, V> implements Iterable<V> {
         }
 
         @Override
-        public V next() {
+        public Entry<K, V> next() {
             if (!hasNext())
                 throw new NoSuchElementException();
-            return currentIterator.next().getValue();
+            return currentIterator.next();
         }
         
     }
-	
-	
-	
+    
+    private class KeyItr implements Iterator<K> {
+
+        Iterator<Entry<K, V>> entriesIterator;
+        
+        public KeyItr() {
+            entriesIterator = iterator();
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return entriesIterator.hasNext();
+        }
+
+        @Override
+        public K next() {
+            if (!this.hasNext())
+                throw new NoSuchElementException();
+            return entriesIterator.next().getKey();
+        }
+        
+    }
+    
+    private class ValueItr implements Iterator<V> {
+
+        Iterator<Entry<K, V>> entriesIterator;
+        
+        public ValueItr() {
+            entriesIterator = iterator();
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return entriesIterator.hasNext();
+        }
+
+        @Override
+        public V next() {
+            if (!this.hasNext())
+                throw new NoSuchElementException();
+            return entriesIterator.next().getValue();
+        }
+        
+    }
 	
 }
