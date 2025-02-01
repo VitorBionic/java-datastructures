@@ -52,7 +52,7 @@ public class HashTable<K, V> {
 			if (table[currentIndex] != null && table[currentIndex].getKey().equals(key))
 				return true;
 			currentIndex = (currentIndex + 1) % buckets;
-		} while (currentIndex != hashIndex);
+		} while (table[currentIndex] != null);
 		return false;
 	}
 
@@ -97,14 +97,16 @@ public class HashTable<K, V> {
 	// Method put
 	// O(1)
 	public void put(K key, V value) {
-		if (value == null)
-			throw new NullPointerException("HashTable does not support null values");
+		if (key == null || value == null)
+			throw new NullPointerException("HashTable does not support null keys/values");
 		int hashIndex = hashFunction(key);
 		Entry<K, V> entry = new Entry<K, V>(key, value);
 		int currentIndex = hashIndex;
 		while (table[currentIndex] != null) {
-			if (table[currentIndex].getKey().equals(key))
+			if (table[currentIndex].getKey().equals(key)) {
+			    table[currentIndex].setValue(value);
 				return;
+			}
 			currentIndex = (currentIndex + 1) % buckets;
 		}
 		table[currentIndex] = entry;
@@ -120,34 +122,60 @@ public class HashTable<K, V> {
 		int hashIndex = hashFunction(key);
 		V removed = null;
 		int currentIndex = hashIndex;
-		do {
+		while (table[currentIndex] != null) {
 			if (table[currentIndex].getKey().equals(key)) {
 				removed = table[currentIndex].getValue();
 				table[currentIndex] = null;
+				count--;
+				
+				int removedPos = currentIndex;
+				int pos = removedPos + 1 % buckets;
+				while (table[pos] != null) {
+				    int keyHashInPos = hashFunction(table[pos].getKey());
+				    if (keyHashInPos <= hashIndex || keyHashInPos <= removedPos) {
+				        table[removedPos] = table[pos];
+				        table[pos] = null;
+				        removedPos =  pos;
+				    }
+				    pos = (pos + 1)  % buckets;
+				}
+				
 				break;
 			}
 			currentIndex = (currentIndex + 1) % buckets;
-		} while (currentIndex != hashIndex);
-		if (removed != null)
-			count--;
+		}
+		
 		return removed;
 	}
-
+	
 	public boolean remove(K key, V value) {
-		int hashIndex = hashFunction(key);
-		Entry<K, V> entry = new Entry<K, V>(key, value);
-		int currentIndex = hashIndex;
-		do {
-			if (table[currentIndex].equals(entry)) {
-				table[currentIndex] = null;
-				count--;
-				return true;
-			}
-			currentIndex = (currentIndex + 1) % buckets;
-		} while (currentIndex != hashIndex);
-		return false;
-	}
-
+        int hashIndex = hashFunction(key);
+        Entry<K, V> entry = new Entry<K, V>(key, value);
+        int currentIndex = hashIndex;
+        do {
+            if (table[currentIndex].equals(entry)) {
+                table[currentIndex] = null;
+                count--;
+                
+                int removedPos = currentIndex;
+                int pos = removedPos + 1 % buckets;
+                while (table[pos] != null) {
+                    int keyHashInPos = hashFunction(table[pos].getKey());
+                    if (keyHashInPos <= hashIndex || keyHashInPos <= removedPos) {
+                        table[removedPos] = table[pos];
+                        table[pos] = null;
+                        removedPos =  pos;
+                    }
+                    pos = (pos + 1)  % buckets;
+                }
+                
+                return true;
+            }
+            currentIndex = (currentIndex + 1) % buckets;
+        } while (table[currentIndex] != null);
+        return false;
+    }
+	
 	// Method get
 	// O(1)
 	public V get(K key) {
@@ -157,7 +185,7 @@ public class HashTable<K, V> {
 			if (table[currentIndex].getKey().equals(key))
 				return table[currentIndex].getValue();
 			currentIndex = (currentIndex + 1) % buckets;
-		} while (currentIndex != hashIndex);
+		} while (table[currentIndex] != null);
 		return null;
 	}
 
