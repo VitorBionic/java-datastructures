@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 import node.btnode.Node;
 
-public class BinaryTree <T extends Comparable<T>> {
+public class BinaryTree <T extends Comparable<? super T>> {
 	
 	private Node<T> root;
 	

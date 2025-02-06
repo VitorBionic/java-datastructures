@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import node.avlnode.Node;
 import stack.dynamicstack.Stack;
 
-public class AVLTree<T extends Comparable<T>> {
+public class AVLTree<T extends Comparable<? super T>> {
 
 	private Node<T> root;
 

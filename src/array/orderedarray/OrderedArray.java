@@ -3,7 +3,7 @@ package array.orderedarray;
 import java.lang.reflect.Array;
 
 // Creating class
-public class OrderedArray <T extends Comparable<T>> {
+public class OrderedArray <T extends Comparable<? super T>> {
 
 	// Instance Variables
 	private int capacity;
