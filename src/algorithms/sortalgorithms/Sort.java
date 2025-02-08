@@ -42,7 +42,7 @@ public class Sort {
 	
 	// Insertion Sort
 	// O(n²)
-	public static <T extends Comparable<T>> void insertionSort(T[] arr) {
+	public static <T extends Comparable<? super T>> void insertionSort(T[] arr) {
 		int leng =  arr.length;
 		for (int i = 1; i < leng; i++)  {
 			T cur = arr[i];
@@ -55,7 +55,7 @@ public class Sort {
 	
 	// Shell Sort
 	// O(n(log(n))²)
-	public static <T extends Comparable<T>> void shellSort(T[] arr) {
+	public static <T extends Comparable<? super T>> void shellSort(T[] arr) {
 		int leng = arr.length;
 		for (int gap = leng/2; gap > 0; gap /= 2) {
 			for (int i = gap; i < leng; i++) {
@@ -72,7 +72,7 @@ public class Sort {
 	
 	// Selection Sort
 	// O(n²)
-	public static <T extends Comparable<T>> void selectionSort(T[] arr) {
+	public static <T extends Comparable<? super T>> void selectionSort(T[] arr) {
 		for (int i = 0; i < arr.length - 1; i++) {
 			int lowest = i;
 			for (int j = i + 1; j < arr.length; j++) {
@@ -85,7 +85,7 @@ public class Sort {
 	
 	// Bubble Sort
 	// O(n²)
-	public static <T extends Comparable<T>> void bubbleSort(T[] arr) {
+	public static <T extends Comparable<? super T>> void bubbleSort(T[] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			boolean swapped = false;
 			for (int j = 0; j < arr.length - i - 1; j++) {
@@ -101,15 +101,15 @@ public class Sort {
 	
 	// Quick Sort
 	// O(n²)
-	public static <T extends Comparable<T>> void quickSort(T[] arr) {
+	public static <T extends Comparable<? super T>> void quickSort(T[] arr) {
 		quickSort(arr, 0, arr.length - 1);
 	}
 	
-	public static <T extends Comparable<T>> void lumotoQuickSort(T[] arr) {
+	public static <T extends Comparable<? super T>> void lumotoQuickSort(T[] arr) {
 		lumotoQuickSort(arr, 0, arr.length - 1);
 	}
 	
-    private static <T extends Comparable<T>> int lumotoPartition(T[] arr, int low, int high) {
+    private static <T extends Comparable<? super T>> int lumotoPartition(T[] arr, int low, int high) {
 		
 		T pivot = arr[high];
 		
@@ -127,7 +127,7 @@ public class Sort {
 		
 	}
     
-    private static <T extends Comparable<T>> int hoaresPartition(T[] arr, int low, int high) {
+    private static <T extends Comparable<? super T>> int hoaresPartition(T[] arr, int low, int high) {
     	
     	T pivot = arr[high];
     	int li = low, ri = high;
@@ -147,7 +147,7 @@ public class Sort {
     	
     }
 	
-	private static <T extends Comparable<T>> void quickSort(T[] arr, int low, int high) {
+	private static <T extends Comparable<? super T>> void quickSort(T[] arr, int low, int high) {
 		if (low < high) {
 			
 			int pivotIndex = rand.nextInt(high - low) + low;
@@ -160,7 +160,7 @@ public class Sort {
 		}
 	}
 	
-	private static <T extends Comparable<T>> void lumotoQuickSort(T[] arr, int low, int high) {
+	private static <T extends Comparable<? super T>> void lumotoQuickSort(T[] arr, int low, int high) {
 		if (low < high) {
 			
 			int pivotIndex = rand.nextInt(high - low) + low;
@@ -175,14 +175,14 @@ public class Sort {
 	
 	// Merge Sort
 	// O(n log n)
-	public static <T extends Comparable<T>> void mergeSort(Class<T> c, T[] arr) {
+	public static <T extends Comparable<? super T>> void mergeSort(Class<T> c, T[] arr) {
 		int leftIndex = 0;
 		int rightIndex = arr.length - 1;
 		mergeSort(c, arr, leftIndex, rightIndex);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static <T extends Comparable<T>> void merge(Class<T> c, T[] arr, int li, int mi, int ri) {
+	private static <T extends Comparable<? super T>> void merge(Class<T> c, T[] arr, int li, int mi, int ri) {
 		
 		T[] leftHalf = (T[]) Array.newInstance(c, mi - li +  1);
 		for (int i = 0; i < leftHalf.length; i++)
@@ -220,7 +220,7 @@ public class Sort {
 		
 	}
 	
-	private static <T extends Comparable<T>> void mergeSort(Class<T> c, T[] arr, int li, int ri) {
+	private static <T extends Comparable<? super T>> void mergeSort(Class<T> c, T[] arr, int li, int ri) {
 		if (li <  ri) {
 			
 			int mid = li + (ri - li) / 2;
@@ -232,6 +232,47 @@ public class Sort {
 			
 		}
 	}
+	
+	// Heap Sort
+    // O(n log n)
+	public static <T extends Comparable<? super T>> void heapSort(T[] arr) {
+	    int heapSize = arr.length;
+	    buildMaxHeap(arr);
+	    while (heapSize > 1) {
+	        swap(arr, 0, --heapSize);
+	        heapify(arr, 0, heapSize);
+	    }
+	}
+
+    private static <T extends Comparable<? super T>> void buildMaxHeap(T[] arr) {
+        for (int i = arr.length / 2; i >= 0; i--)
+            heapify(arr, i, arr.length);
+    }
+
+    private static <T extends Comparable<? super T>> void heapify(T[] arr, int i, int length) {
+        while (true) {
+            int elementIndex = i;
+            int left = getLeftIndex(i);
+            int right = getRightIndex(i);
+            if (left < length && arr[left].compareTo(arr[elementIndex]) > 0)
+                elementIndex = left;
+            if (right < length && arr[right].compareTo(arr[elementIndex]) > 0)
+                elementIndex = right;
+            
+            if (elementIndex == i)
+                break;
+            swap(arr, elementIndex, i);
+            i = elementIndex;
+        }
+    }
+    
+    private static int getLeftIndex(int index) {
+        return 2 * index + 1;
+    }
+    
+    private static int getRightIndex(int index) {
+        return 2 * index + 2;
+    }
 	
 	
 	

@@ -4,7 +4,7 @@ package algorithms.sortalgorithms;
 public class ExecutionTime {
 
 	public static void main(String[] args) {
-        Integer[] array = Sort.generateRandomArray(99999, 100000, 100000);
+        Integer[] array = Sort.generateRandomArray(9999, 10000, 100000);
 		
 		Integer[] arr = array.clone();
 		
@@ -90,5 +90,20 @@ public class ExecutionTime {
 		
 		System.out.println();
 		System.out.println();
+		
+		arr = array.clone();
+		
+		System.out.println("Heap Sort");
+        System.out.println("------------------------------------");
+        
+        start = System.nanoTime();
+        Sort.heapSort(arr);
+        end = System.nanoTime();
+        System.out.println("Execution time = " + (double) (end - start) / 1000000 + " miliseconds");
+        
+        System.out.println();
+        System.out.println();
+        
+        arr = array.clone();
 	}
 }

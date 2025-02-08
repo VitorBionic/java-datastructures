@@ -128,6 +128,25 @@ public class Program {
 		System.out.println();
 		System.out.println();
 		
+		arr = array.clone();
+        
+        System.out.println("Heap Sort");
+        System.out.println("------------------------------------");
+        System.out.println("Unsorted Array:");
+        System.out.println(Arrays.toString(arr));
+        
+        start = System.nanoTime();
+        Sort.heapSort(arr);
+        end = System.nanoTime();
+        System.out.println();
+        System.out.println("Execution time = " + (double) (end - start) + " nanoseconds");
+        
+        System.out.println("Sorted Sort:");
+        System.out.println(Arrays.toString(arr));
+        
+        System.out.println();
+        System.out.println();
+		
 	}
 
 }
